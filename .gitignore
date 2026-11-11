@@ -1,0 +1,62 @@
+# ─── Secretos: nunca al repositorio ─────────────────────────────────────────────
+# Certificados y claves de firma de código (Windows, macOS, actualizador de Tauri)
+*.pfx
+*.p12
+*.p8
+*.pem
+*.key
+*.snk
+*.keystore
+*.jks
+*.mobileprovision
+*.provisionprofile
+*.pvk
+*.spc
+# Tokens de npm y credenciales de red
+.npmrc
+.netrc
+# Variables de entorno (tokens, contraseñas); el ejemplo sin valores sí se sube
+.env
+.env.*
+!.env.example
+
+# ─── Dependencias ───────────────────────────────────────────────────────────────
+node_modules/
+
+# ─── Compilaciones (se generan con npm run build / cargo) ──────────────────────
+app/dist/
+app/dist-instalador/
+app/src-tauri/target/
+app/src-tauri/gen/schemas/
+app-instalador/target/
+app-instalador/gen/
+*.tsbuildinfo
+**/*.rs.bk
+
+# Motores (pesan cientos de MB): se bajan con `node app/scripts/motores.mjs <sistema>`
+app/src-tauri/resources/bin-*/
+
+# Instaladores generados (solo la carpeta de la raíz; app/src/instalador es código)
+/instalador/
+
+# ─── Registros, temporales y archivos locales ─────────────────────────────────
+*.log
+*.tmp
+*.local
+.cache/
+coverage/
+# Ajustes locales de herramientas (no se suben)
+*.local.json
+
+# ─── Sistema y editores ────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk
+.idea/
+.vscode/
+.history/
+*.swp
+*~

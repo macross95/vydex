@@ -1,0 +1,4 @@
+FFmpeg para macOS: compilación de Martin Riedl (https://ffmpeg.martin-riedl.de), firmada por Apple.
+Incluye bibliotecas GPL (x264, x265), por lo que se distribuye bajo la GNU General Public License.
+Vydex lo ejecuta como programa aparte. Licencia: https://www.gnu.org/licenses/gpl-3.0.html
+Código fuente de FFmpeg: https://ffmpeg.org/download.html

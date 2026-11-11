@@ -1,0 +1,178 @@
+@import "@fontsource-variable/inter";
+@import "tailwindcss";
+
+/*
+  Vydex
+  Fondo: degradado de grafito (arriba a la izquierda, detrás del logo) a negro mate y negro.
+  Superficies: blanco translúcido, así cada tarjeta queda un paso más clara que el fondo
+  en cualquier punto del degradado.
+  Acento rojo-naranja del logo: datos (progreso, escalera) y botones principales.
+*/
+@theme {
+  --font-sans: "Inter Variable", "Inter", system-ui, sans-serif;
+
+  --color-suelo: #000000;
+  --color-superficie: rgb(255 255 255 / 0.045);
+  --color-elevado: rgb(255 255 255 / 0.1);
+  --color-encima: rgb(255 255 255 / 0.07);
+  --color-pozo: rgb(0 0 0 / 0.42);
+  --color-flotante: #1c1d20;
+  --color-regla: rgb(255 255 255 / 0.07);
+  --color-control: rgb(255 255 255 / 0.2);
+  --color-pista: rgb(255 255 255 / 0.09);
+  --color-texto: #ffffff;
+  --color-suave: #bdbdc0;
+  --color-tenue: #a3a3a6;
+  --color-nav: #c4c4c7;
+  --color-acento: #ff5a1f;
+  /* Botón principal: el mismo rojo-naranja, un tono más profundo para que el texto blanco
+     se lea con contraste 4,6:1 */
+  --color-boton: #d93b0a;
+  --color-boton-hover: #e84a12;
+  --color-negativo: #ef6b80;
+  --color-positivo: #3fc07a;
+  --color-aviso: #e5a93b;
+
+  --radius-tarjeta: 20px;
+  --radius-panel: 12px;
+
+  --text-titulo: 22px;
+  --text-titulo--line-height: 30px;
+  --text-seccion: 16px;
+  --text-seccion--line-height: 24px;
+  --text-cifra: 24px;
+  --text-cifra--line-height: 30px;
+  --text-cuerpo: 14px;
+  --text-cuerpo--line-height: 20px;
+  --text-meta: 13px;
+  --text-meta--line-height: 18px;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: #0b0b0c;
+  color: var(--color-texto);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 20px;
+  -webkit-font-smoothing: antialiased;
+  user-select: none;
+}
+
+/*
+  El degradado vive en una capa fija detrás de todo (no se repinta al desplazar).
+  La barra superior usa el mismo degradado medido contra la ventana, así empalma sin corte.
+  La textura de grano, casi invisible, evita los escalones del degradado en pantallas oscuras.
+*/
+.fondo-vydex {
+  background-color: #0b0b0c;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 .07 0 0 0 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E"),
+    linear-gradient(152deg, #2d2e32 0%, #1d1e21 18%, #121214 40%, #080808 68%, #000000 100%);
+  background-size:
+    160px 160px,
+    100% 100vh;
+  background-repeat: repeat, no-repeat;
+}
+
+/*
+  Barra de título: los botones de la ventana (3 × 46 px) van en el borde derecho. La columna
+  centrada del encabezado solo les deja espacio cuando la ventana es angosta; en macOS se
+  reserva a la izquierda para los botones nativos de colores.
+*/
+.columna-barra {
+  --margen: 1rem;
+  padding-right: max(var(--margen), min(150px, calc(150px - (100vw - 1088px) / 2)));
+}
+.columna-barra-mac {
+  --margen: 1rem;
+  padding-left: max(var(--margen), min(84px, calc(84px - (100vw - 1088px) / 2)));
+}
+@media (min-width: 640px) {
+  .columna-barra,
+  .columna-barra-mac {
+    --margen: 1.5rem;
+  }
+}
+@media (min-width: 1024px) {
+  .columna-barra,
+  .columna-barra-mac {
+    --margen: 2rem;
+  }
+}
+
+.capa-fondo {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+}
+
+/* En la capa base, para que las utilidades de Tailwind (focus-visible:outline-none) puedan anularlo. */
+@layer base {
+  input,
+  textarea {
+    user-select: text;
+  }
+
+  :focus-visible {
+    outline: 2px solid #ffffff;
+    outline-offset: 2px;
+  }
+
+  ::selection {
+    background: #ffffff;
+    color: #000000;
+  }
+}
+
+.num {
+  font-variant-numeric: tabular-nums;
+}
+
+.sin-barra {
+  scrollbar-width: none;
+}
+.sin-barra::-webkit-scrollbar {
+  display: none;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: rgb(255 255 255 / 0.14);
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+@keyframes aparecer {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.aparecer {
+  animation: aparecer 220ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
+}

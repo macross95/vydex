@@ -1,0 +1,7 @@
+# Finales de línea LF en el repositorio (Windows los convierte al sacar los archivos).
+* text=auto eol=lf
+*.png binary
+*.ico binary
+*.icns binary
+*.woff2 binary
+*.exe binary

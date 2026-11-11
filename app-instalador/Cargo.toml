@@ -1,0 +1,31 @@
+[package]
+name = "vydex-instalador"
+# La versión vive solo en app/package.json (tauri.conf.json la lee desde ahí).
+version = "0.0.0"
+description = "Instalador de Vydex"
+authors = ["MacrosS"]
+edition = "2024"
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+# custom-protocol: el instalador siempre usa la interfaz empaquetada (no hay servidor de desarrollo).
+tauri = { version = "2", features = ["custom-protocol"] }
+tauri-plugin-dialog = "2"
+tauri-plugin-opener = "2"
+serde = { version = "1", features = ["derive"] }
+zip = { version = "9", default-features = false, features = ["deflate"] }
+dirs = "7"
+
+[target.'cfg(windows)'.dependencies]
+winreg = "0.56"
+mslnk = "0.1"
+windows-sys = { version = "0.61", features = ["Win32_Foundation", "Win32_UI_WindowsAndMessaging", "Win32_System_SystemInformation", "Win32_System_LibraryLoader"] }
+
+[profile.release]
+codegen-units = 1
+lto = true
+opt-level = "s"
+panic = "abort"
+strip = true

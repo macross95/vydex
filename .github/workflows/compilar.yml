@@ -1,0 +1,154 @@
+# Compila Vydex para Windows, Linux y macOS (Apple Silicon e Intel) y deja todos los
+# instaladores en un borrador de Release de GitHub, con sus sumas SHA-256.
+#
+# Se ejecuta a mano (pestaña Actions → "Compilar Vydex" → Run workflow) o al subir una
+# etiqueta de versión igual a la de app/package.json, por ejemplo:
+#   git tag v0.4.1 && git push origin v0.4.1
+#
+# Seguridad: cada acción está fijada a un commit (el comentario dice su versión), el token es de
+# solo lectura salvo en el trabajo que publica y checkout no deja credenciales guardadas.
+
+name: Compilar Vydex
+
+on:
+  workflow_dispatch:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: read
+
+jobs:
+  compilar:
+    name: ${{ matrix.nombre }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - nombre: Windows
+            maquina: windows-latest
+            motores: windows
+            args: ""
+          - nombre: Linux
+            maquina: ubuntu-22.04
+            motores: linux
+            args: ""
+          - nombre: macOS (Apple Silicon)
+            maquina: macos-latest
+            motores: macos-arm64
+            args: "--target aarch64-apple-darwin"
+          - nombre: macOS (Intel)
+            maquina: macos-latest
+            motores: macos-x64
+            args: "--target x86_64-apple-darwin"
+
+    runs-on: ${{ matrix.maquina }}
+    defaults:
+      run:
+        working-directory: app
+
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+        with:
+          persist-credentials: false
+
+      - name: Dependencias de sistema (Linux)
+        if: matrix.motores == 'linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libwebkit2gtk-4.1-dev libayatana-appindicator3-dev librsvg2-dev \
+            libxdo-dev libssl-dev patchelf build-essential file
+
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: app/package-lock.json
+
+      - uses: dtolnay/rust-toolchain@b725eda525362e7cf34af9a7243cac1e3f01a7ec # rama stable
+        with:
+          toolchain: stable
+          targets: ${{ startsWith(matrix.motores, 'macos') && 'aarch64-apple-darwin,x86_64-apple-darwin' || '' }}
+
+      - uses: swatinem/rust-cache@d1527c8f67ef9af357290475d4af4b0fab8f12e0 # v2.9.3
+        with:
+          workspaces: "app/src-tauri -> target"
+          key: ${{ matrix.motores }}
+
+      - name: Dependencias de Node
+        run: npm ci
+
+      - name: Motores (yt-dlp, Deno, FFmpeg) para ${{ matrix.nombre }}
+        # Cada archivo se verifica contra la huella SHA-256 fijada en scripts/motores.lock.json.
+        run: node scripts/motores.mjs ${{ matrix.motores }}
+
+      - name: Instalador de Windows (con el diseño de Vydex)
+        if: matrix.motores == 'windows'
+        run: node scripts/empaquetar-instalador.mjs
+
+      - name: Instaladores de ${{ matrix.nombre }}
+        if: matrix.motores != 'windows'
+        run: npx tauri build ${{ matrix.args }} -- --locked
+
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: vydex-${{ matrix.motores }}
+          if-no-files-found: error
+          path: |
+            instalador/*.exe
+            app/src-tauri/target/release/bundle/deb/*.deb
+            app/src-tauri/target/release/bundle/rpm/*.rpm
+            app/src-tauri/target/release/bundle/appimage/*.AppImage
+            app/src-tauri/target/*/release/bundle/dmg/*.dmg
+
+  publicar:
+    name: Release (borrador)
+    needs: compilar
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+        with:
+          persist-credentials: false
+
+      - name: Versión
+        id: version
+        run: echo "valor=$(node -p "require('./app/package.json').version")" >> "$GITHUB_OUTPUT"
+
+      - name: La etiqueta coincide con la versión
+        if: github.ref_type == 'tag'
+        env:
+          ETIQUETA: ${{ github.ref_name }}
+          VERSION: ${{ steps.version.outputs.valor }}
+        run: |
+          if [ "$ETIQUETA" != "v$VERSION" ]; then
+            echo "La etiqueta $ETIQUETA no coincide con la versión v$VERSION de app/package.json"
+            exit 1
+          fi
+
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          path: instaladores
+          merge-multiple: true
+
+      - name: Sumas SHA-256 de los instaladores
+        run: |
+          cd instaladores
+          find . -type f ! -name SHA256SUMS.txt -exec sha256sum {} + | sed 's#\./##' | sort -k2 > SHA256SUMS.txt
+          cat SHA256SUMS.txt
+
+      - uses: softprops/action-gh-release@3bb12739c298aeb8a4eeaf626c5b8d85266b0e65 # v2.6.2
+        with:
+          tag_name: v${{ steps.version.outputs.valor }}
+          target_commitish: ${{ github.sha }}
+          name: Vydex v${{ steps.version.outputs.valor }}
+          draft: true
+          files: instaladores/**/*
+          body: |
+            Instaladores de Vydex, programa creado por MacrosS. En español e inglés.
+            - **Windows 10 y 11:** `Vydex_${{ steps.version.outputs.valor }}_x64-setup.exe`
+            - **macOS 11 o superior:** `.dmg` (aarch64 = Apple Silicon M1 a M4, x64 = Intel)
+            - **Linux:** `.deb` (Ubuntu, Debian), `.rpm` (Fedora) o `.AppImage` (cualquier distribución)
+
+            Verifica tu descarga con `SHA256SUMS.txt` (por ejemplo `sha256sum -c SHA256SUMS.txt --ignore-missing`).

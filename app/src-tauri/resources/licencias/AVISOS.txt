@@ -1,0 +1,23 @@
+Vydex, programa creado por MacrosS.
+
+Vydex incluye los siguientes programas de terceros, sin modificar:
+
+yt-dlp
+  https://github.com/yt-dlp/yt-dlp
+  Licencia: The Unlicense (dominio público).
+
+Deno 2.9.8
+  https://github.com/denoland/deno
+  Licencia: MIT. Copyright 2018-2026 the Deno authors.
+  Se concede permiso, libre de cargos, a cualquier persona que obtenga una copia de este
+  software, para usarlo sin restricción, siempre que este aviso de copyright y de permiso
+  se incluyan en todas las copias o partes sustanciales del software.
+
+FFmpeg
+  https://ffmpeg.org
+  - Windows y Linux: compilación LGPL de BtbN/FFmpeg-Builds (https://github.com/BtbN/FFmpeg-Builds),
+    bajo la GNU Lesser General Public License 2.1 o posterior (ver FFmpeg-LGPL.txt).
+  - macOS: compilación de Martin Riedl (https://ffmpeg.martin-riedl.de), bajo la GNU General
+    Public License (ver FFmpeg-macOS.txt).
+  Vydex ejecuta FFmpeg como un programa aparte. El código fuente está disponible en
+  https://ffmpeg.org/download.html

@@ -1,0 +1,21 @@
+Copyright (c) 2026 MacrosS. Todos los derechos reservados.
+
+El código fuente de Vydex se publica solo para consulta. No se concede ningún permiso para
+copiarlo, modificarlo, distribuirlo, sublicenciarlo ni usarlo en otros proyectos, total o
+parcialmente, sin autorización previa y por escrito del autor.
+
+Componentes de terceros: Vydex incluye y ejecuta como programas aparte yt-dlp (Unlicense),
+Deno (MIT) y FFmpeg (LGPL 2.1 en Windows y Linux, GPL en macOS). Cada uno conserva su propia
+licencia, incluida en app/src-tauri/resources/licencias/ y en cada instalador.
+
+---
+
+Copyright (c) 2026 MacrosS. All rights reserved.
+
+The Vydex source code is published for reference only. No permission is granted to copy,
+modify, distribute, sublicense or use it in other projects, in whole or in part, without the
+author's prior written permission.
+
+Third-party components: Vydex bundles and runs yt-dlp (Unlicense), Deno (MIT) and FFmpeg
+(LGPL 2.1 on Windows and Linux, GPL on macOS) as separate programs. Each keeps its own license,
+included in app/src-tauri/resources/licencias/ and in every installer.
