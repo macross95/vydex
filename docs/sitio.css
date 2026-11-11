@@ -60,7 +60,7 @@ h1, h2, h3, p { margin: 0; }
 .boton--chico { min-height: 44px; padding: 0 18px; font-size: 14px; }
 
 /* Portada */
-.hero { position: relative; height: calc(100svh - var(--nav)); min-height: 620px; padding: clamp(40px, 7vh, 80px) 0 0; overflow: hidden; display: flex; flex-direction: column; gap: clamp(32px, 6vh, 56px); }
+.hero { position: relative; min-height: calc(100svh - var(--nav)); padding: clamp(40px, 7vh, 80px) 0 0; overflow: hidden; display: flex; flex-direction: column; gap: clamp(32px, 6vh, 56px); }
 .hero__brillo { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(60% 50% at 50% 78%, rgb(255 90 31 / 0.22), transparent 70%), radial-gradient(40% 30% at 50% 100%, rgb(217 59 10 / 0.25), transparent 75%); }
 .hero__texto { position: relative; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 20px; }
 .etiqueta { color: var(--acento); font-size: 14px; font-weight: 600; letter-spacing: 0.02em; }
@@ -74,13 +74,13 @@ h1, h2, h3, p { margin: 0; }
 @keyframes entrar { to { opacity: 1; filter: blur(0); transform: none; } }
 
 /* Ventana con la app real (modo demostración) */
-.hero__marco { flex: 1; min-height: 0; }
-.ventana { height: 100%; position: relative; border-radius: var(--radio) var(--radio) 0 0; border: 1px solid var(--control); border-bottom: 0; background: #0b0b0c; box-shadow: 0 -20px 80px rgb(255 90 31 / 0.12), 0 30px 80px rgb(0 0 0 / 0.6); overflow: hidden; }
+.ventana { position: relative; border-radius: var(--radio) var(--radio) 0 0; border: 1px solid var(--control); border-bottom: 0; background: #0b0b0c; box-shadow: 0 -20px 80px rgb(255 90 31 / 0.12), 0 30px 80px rgb(0 0 0 / 0.6); overflow: hidden; }
 .ventana__barra { height: 36px; display: flex; align-items: center; gap: 7px; padding: 0 14px; border-bottom: 1px solid var(--regla); background: #111113; }
 .ventana__barra span { width: 11px; height: 11px; border-radius: 50%; background: rgb(255 255 255 / 0.18); }
 .ventana__barra p { margin-left: 8px; font-size: 12px; color: var(--tenue); }
-.ventana__lienzo { position: relative; height: calc(100% - 36px); overflow: hidden; }
-.ventana__lienzo iframe { position: absolute; top: 0; left: 0; width: var(--base-ancho, 1280px); height: var(--base-alto, 860px); border: 0; transform-origin: 0 0; transform: scale(var(--escala, 1)); }
+.ventana__lienzo { display: block; overflow: hidden; }
+.ventana__lienzo img { width: 100%; height: auto; transition: transform .4s ease; }
+.ventana__lienzo:hover img { transform: scale(1.02); }
 
 /* Secciones: una por pantalla */
 .seccion { min-height: 100svh; padding: clamp(64px, 10vh, 112px) 0; display: flex; align-items: center; }
