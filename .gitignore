@@ -60,3 +60,6 @@ $RECYCLE.BIN/
 .history/
 *.swp
 *~
+
+# Estado local de la skill de diseño
+.taste-skill/

@@ -13,8 +13,6 @@ function ajustar() {
   lienzo.style.setProperty("--base-ancho", `${base}px`);
   lienzo.style.setProperty("--base-alto", `${altoBase}px`);
   lienzo.style.setProperty("--escala", String(escala));
-  const alto = Math.round(altoBase * escala * (telefono ? 0.62 : 0.66));
-  lienzo.style.setProperty("--alto-lienzo", `${Math.max(alto, 220)}px`);
 }
 ajustar();
 if (lienzo) new ResizeObserver(ajustar).observe(lienzo);
