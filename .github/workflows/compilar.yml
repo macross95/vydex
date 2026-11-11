@@ -135,7 +135,8 @@ jobs:
       - name: Sumas SHA-256 de los instaladores
         run: |
           cd instaladores
-          find . -type f ! -name SHA256SUMS.txt -exec sha256sum {} + | sed 's#\./##' | sort -k2 > SHA256SUMS.txt
+          # Solo el nombre de cada archivo (los artefactos llegan dentro de sus carpetas de compilación).
+          find . -type f ! -name SHA256SUMS.txt -exec sha256sum {} + | sed -E 's#  .*/#  #' | sort -k2 > SHA256SUMS.txt
           cat SHA256SUMS.txt
 
       - uses: softprops/action-gh-release@3bb12739c298aeb8a4eeaf626c5b8d85266b0e65 # v2.6.2
