@@ -11,6 +11,18 @@ Programa de escritorio para descargar video hasta **8K y HDR**, y audio en **MP3
 
 **[Sitio web y demo](https://macross95.github.io/vydex/)** · **[Descargar la última versión](https://github.com/macross95/vydex/releases/latest)**
 
+<p align="center"><img src="docs/capturas/app-descargar.jpg" width="900" alt="Pantalla Descargar de Vydex: un video de 8K analizado con su escalera de calidad y el peso de cada opción"></p>
+
+## Capturas
+
+| El historial | El sitio web |
+|---|---|
+| <img src="docs/capturas/app-historial.jpg" alt="Historial de Vydex con búsqueda, filtros por video y audio, y el peso de cada archivo"> | <img src="docs/capturas/sitio-portada.png" alt="Portada del sitio de Vydex con la app funcionando en modo demostración"> |
+
+<p align="center"><img src="docs/capturas/sitio-funciones.png" width="900" alt="Funciones de Vydex: escalera de calidad, solo audio, cola con pausa e historial con búsqueda"></p>
+
+Pruébalo sin instalar nada: la [demo en el navegador](https://macross95.github.io/vydex/demo/?demo) muestra la interfaz con datos de ejemplo.
+
 ## Sistemas compatibles
 
 | Sistema | Instalador |
