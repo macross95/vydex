@@ -75,7 +75,7 @@ Vista previa sin compilar el núcleo (datos de ejemplo):
 
 1. Sube el repositorio a GitHub. Los componentes de descarga no se suben (`.gitignore`): el flujo los baja en cada compilación.
 2. En el repositorio: **Actions → Compilar Vydex → Run workflow**.
-3. Al terminar (unos 20 minutos), los instaladores quedan en **Releases** como borrador.
+3. Al terminar (unos 20 minutos), los instaladores quedan en **Releases**, ya publicados como última versión.
 
 También se ejecuta al subir una etiqueta de versión: `git tag v<versión> && git push origin v<versión>` (la misma versión de `app/package.json`).
 
@@ -83,7 +83,7 @@ También se ejecuta al subir una etiqueta de versión: `git tag v<versión> && g
 
 Vydex revisa la última versión publicada en Releases al abrirse y cada 6 horas. Si hay una nueva, la descarga, verifica su firma y la instala cuando no hay descargas en curso (se puede desactivar en Ajustes). En Windows, el instalador recibe `/UPDATE` y actualiza sin ventanas; en macOS y Linux lo hace el actualizador de Tauri.
 
-- **Cómo sale una actualización:** sube la etiqueta de la versión nueva; cuando el borrador de Release esté listo, publícalo. Desde ese momento, cada Vydex instalado se actualiza solo (lee `latest.json` de la última versión publicada).
+- **Cómo sale una actualización:** sube la etiqueta de la versión nueva; la Release se publica sola al terminar la compilación. Desde ese momento, cada Vydex instalado se actualiza solo (lee `latest.json` de la última versión publicada).
 - **Firma:** la clave pública va en `app/src-tauri/tauri.conf.json`. La privada está en `%USERPROFILE%\.tauri\vydex-updater.key` (con su contraseña en `vydex-updater.password.txt`) y como secretos `TAURI_SIGNING_PRIVATE_KEY` y `TAURI_SIGNING_PRIVATE_KEY_PASSWORD` del repositorio. **Guárdalas en un gestor de contraseñas:** sin ellas no se pueden publicar actualizaciones para quienes ya tienen Vydex.
 - Para firmar al compilar en tu equipo, define esas dos variables de entorno antes de `node scripts/empaquetar-instalador.mjs`.
 

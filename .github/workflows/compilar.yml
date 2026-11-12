@@ -1,5 +1,6 @@
 # Compila Vydex para Windows, Linux y macOS (Apple Silicon e Intel) y deja todos los
-# instaladores en un borrador de Release de GitHub, con sus sumas SHA-256.
+# instaladores en una Release de GitHub ya publicada y marcada como última versión, con sus
+# sumas SHA-256.
 #
 # Se ejecuta a mano (pestaña Actions → "Compilar Vydex" → Run workflow) o al subir una
 # etiqueta de versión igual a la de app/package.json, por ejemplo:
@@ -123,7 +124,7 @@ jobs:
             app/src-tauri/target/*/release/bundle/macos/*.app.tar.gz.sig
 
   publicar:
-    name: Release (borrador)
+    name: Release (publicada)
     needs: compilar
     runs-on: ubuntu-latest
     permissions:
@@ -171,7 +172,8 @@ jobs:
           tag_name: v${{ steps.version.outputs.valor }}
           target_commitish: ${{ github.sha }}
           name: Vydex v${{ steps.version.outputs.valor }}
-          draft: true
+          draft: false
+          make_latest: "true"
           files: instaladores/**/*
           body: |
             Instaladores de Vydex, programa creado por MacrosS. En español e inglés.
