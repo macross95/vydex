@@ -132,6 +132,9 @@ h1, h2, h3, p { margin: 0; }
 .sistema p { color: var(--tenue); font-size: 15px; flex: 1; }
 .sistema .boton { margin-top: 10px; align-self: flex-start; }
 .sistema .boton:focus-visible, .pie .enlace:focus-visible { outline: 2px solid var(--acento); outline-offset: 4px; }
+.sistema .alternativa { flex: none; font-size: 14px; }
+.alternativa .enlace { color: var(--texto); font-weight: 600; display: inline-flex; align-items: center; min-height: 44px; }
+.alternativa .enlace::after { bottom: 10px; }
 .nota { margin-top: 22px; color: var(--tenue); font-size: 14px; }
 
 /* Pie */
