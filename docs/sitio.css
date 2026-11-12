@@ -60,7 +60,7 @@ h1, h2, h3, p { margin: 0; }
 .boton--chico { min-height: 44px; padding: 0 18px; font-size: 14px; }
 
 /* Portada */
-.hero { position: relative; min-height: calc(100svh - var(--nav)); padding: clamp(40px, 7vh, 80px) 0 0; overflow: hidden; display: flex; flex-direction: column; gap: clamp(32px, 6vh, 56px); }
+.hero { position: relative; min-height: calc(100svh - var(--nav)); padding: clamp(40px, 7vh, 80px) 0 clamp(48px, 8vh, 88px); overflow: hidden; display: flex; flex-direction: column; gap: clamp(32px, 6vh, 56px); }
 .hero__brillo { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(60% 50% at 50% 78%, rgb(255 90 31 / 0.22), transparent 70%), radial-gradient(40% 30% at 50% 100%, rgb(217 59 10 / 0.25), transparent 75%); }
 .hero__texto { position: relative; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 20px; }
 .etiqueta { color: var(--acento); font-size: 14px; font-weight: 600; letter-spacing: 0.02em; }
@@ -74,7 +74,7 @@ h1, h2, h3, p { margin: 0; }
 @keyframes entrar { to { opacity: 1; filter: blur(0); transform: none; } }
 
 /* Ventana con la app real (modo demostración) */
-.ventana { position: relative; border-radius: var(--radio) var(--radio) 0 0; border: 1px solid var(--control); border-bottom: 0; background: #0b0b0c; box-shadow: 0 -20px 80px rgb(255 90 31 / 0.12), 0 30px 80px rgb(0 0 0 / 0.6); overflow: hidden; }
+.ventana { position: relative; border-radius: var(--radio); border: 1px solid var(--control); background: #0b0b0c; box-shadow: 0 -20px 80px rgb(255 90 31 / 0.12), 0 30px 80px rgb(0 0 0 / 0.6); overflow: hidden; }
 .ventana__barra { height: 36px; display: flex; align-items: center; gap: 7px; padding: 0 14px; border-bottom: 1px solid var(--regla); background: #111113; }
 .ventana__barra span { width: 11px; height: 11px; border-radius: 50%; background: rgb(255 255 255 / 0.18); }
 .ventana__barra p { margin-left: 8px; font-size: 12px; color: var(--tenue); }
