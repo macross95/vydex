@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { FolderOpen } from "lucide-react";
 import { useVydex, estaActiva } from "./lib/tienda";
+import { iniciarActualizador } from "./lib/actualizador";
 import * as motor from "./lib/motor";
 import { abrirEnlace, enTauri, LINKEDIN, VERSION } from "./lib/plataforma";
 import { velocidad } from "./lib/formato";
@@ -40,6 +41,11 @@ export default function App() {
   useEffect(() => {
     void iniciar();
   }, [iniciar]);
+
+  // Con los ajustes ya leídos, revisa si hay una versión nueva de Vydex.
+  useEffect(() => {
+    if (listo) iniciarActualizador();
+  }, [listo]);
 
   useEffect(() => {
     window.location.hash = pantalla;

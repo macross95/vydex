@@ -28,7 +28,7 @@
   /* Botón principal: el mismo rojo-naranja, un tono más profundo para que el texto blanco
      se lea con contraste 4,6:1 */
   --color-boton: #d93b0a;
-  --color-boton-hover: #e84a12;
+  --color-boton-hover: #c2330a;
   --color-negativo: #ef6b80;
   --color-positivo: #3fc07a;
   --color-aviso: #e5a93b;

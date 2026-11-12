@@ -19,6 +19,12 @@ pub fn run() {
             let _ = ventana.set_focus();
         }
     }));
+    // Actualizaciones: el actualizador verifica la firma de cada versión con la clave pública de
+    // tauri.conf.json antes de instalarla.
+    #[cfg(any(target_os = "windows", target_os = "linux", target_os = "macos"))]
+    let constructor = constructor
+        .plugin(tauri_plugin_updater::Builder::new().build())
+        .plugin(tauri_plugin_process::init());
     constructor
         .plugin(tauri_plugin_opener::init())
         .plugin(tauri_plugin_dialog::init())

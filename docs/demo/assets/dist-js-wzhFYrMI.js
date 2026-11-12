@@ -1,1 +1,0 @@
-import{u as e}from"./index-BMZ9WEdT.js";import"./image-VLf_9h6K.js";async function t(){return await e(`plugin:clipboard-manager|read_text`)}export{t as readText};

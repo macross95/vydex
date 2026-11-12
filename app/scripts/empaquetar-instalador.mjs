@@ -103,6 +103,14 @@ if (revision.status !== 0) {
   process.exit(1);
 }
 
+// Firma de actualización (minisign): con TAURI_SIGNING_PRIVATE_KEY definida, se crea el .sig que
+// el actualizador de Vydex verifica antes de instalar esta versión.
+if (process.env.TAURI_SIGNING_PRIVATE_KEY) {
+  paso("Firmando la actualización");
+  // --app-version ata la firma a esta versión: no sirve para hacer pasar un instalador viejo.
+  npx(["tauri", "signer", "sign", "--app-version", version, `"${salida}"`]);
+}
+
 const mb = (n) => `${(n / 1e6).toFixed(1)} MB`;
 console.log(`\nListo: ${salida}`);
 console.log(`  instalador ${mb(instalador.length)} + paquete ${mb(datos.length)} = ${mb(statSync(salida).size)}`);

@@ -102,6 +102,8 @@ export interface Ajustes {
   subtitulos: boolean;
   notificar: boolean;
   portapapeles: boolean;
+  /** Instala sola cada versión nueva de Vydex publicada en GitHub */
+  actualizarAuto: boolean;
   /** false hasta que la persona pasa por la bienvenida (primera vez que abre Vydex) */
   configurado: boolean;
   idioma: "es" | "en";

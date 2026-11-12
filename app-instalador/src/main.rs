@@ -173,6 +173,22 @@ fn main() {
         std::process::exit(if paquete::verificar().is_ok() { 0 } else { 1 });
     }
 
+    // Actualización desde Vydex: su actualizador ya verificó la firma de este instalador y lo
+    // abre con "/P /UPDATE /R /ARGS …". Se instala sobre la instalación existente sin ventanas y
+    // se vuelve a abrir Vydex (también si algo falla: la versión anterior queda intacta).
+    if tiene("/UPDATE") {
+        if let Some(existente) = sistema::instalacion_existente().filter(|e| sistema::es_instalacion(&e.carpeta)) {
+            let idioma = existente.idioma.clone().filter(|i| i == "en").unwrap_or_else(|| "es".into());
+            let escritorio = dirs::desktop_dir().is_some_and(|d| d.join("Vydex.lnk").exists());
+            let resultado = paquete::verificar()
+                .map_err(|e| e.to_string())
+                .and_then(|_| sistema::instalar(&existente.carpeta, escritorio, &idioma, env!("VYDEX_VERSION"), |_, _, _| {}));
+            let _ = sistema::abrir_vydex(&existente.carpeta);
+            std::process::exit(if resultado.is_ok() { 0 } else { 1 });
+        }
+        // Sin instalación previa: sigue el instalador normal, con su ventana.
+    }
+
     let temporal = tiene("--temporal");
     // Solo es desinstalador si se pide o si el archivo se llama así. Un instalador dañado o
     // incompleto ya no se abre como desinstalador: muestra el error y pide descargarlo de nuevo.

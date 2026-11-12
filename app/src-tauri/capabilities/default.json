@@ -2,7 +2,9 @@
   "$schema": "../gen/schemas/desktop-schema.json",
   "identifier": "default",
   "description": "Permisos de la ventana principal de Vydex",
-  "windows": ["main"],
+  "windows": [
+    "main"
+  ],
   "permissions": [
     "core:default",
     "core:window:allow-destroy",
@@ -18,7 +20,13 @@
     "notification:default",
     {
       "identifier": "opener:allow-open-url",
-      "allow": [{ "url": "https://www.linkedin.com/*" }]
-    }
+      "allow": [
+        {
+          "url": "https://www.linkedin.com/*"
+        }
+      ]
+    },
+    "updater:default",
+    "process:allow-restart"
   ]
 }

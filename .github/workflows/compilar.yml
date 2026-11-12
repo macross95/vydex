@@ -84,11 +84,26 @@ jobs:
 
       - name: Instalador de Windows (con el diseño de Vydex)
         if: matrix.motores == 'windows'
+        env:
+          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
         run: node scripts/empaquetar-instalador.mjs
 
       - name: Instaladores de ${{ matrix.nombre }}
         if: matrix.motores != 'windows'
+        env:
+          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
         run: npx tauri build ${{ matrix.args }} -- --locked
+
+      - name: Paquete de actualización con la arquitectura en el nombre (macOS)
+        if: startsWith(matrix.motores, 'macos')
+        working-directory: app/src-tauri/target
+        run: |
+          arq=$([ "${{ matrix.motores }}" = "macos-arm64" ] && echo aarch64 || echo x64)
+          cd */release/bundle/macos
+          mv Vydex.app.tar.gz "Vydex_${arq}.app.tar.gz"
+          mv Vydex.app.tar.gz.sig "Vydex_${arq}.app.tar.gz.sig"
 
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
@@ -96,10 +111,16 @@ jobs:
           if-no-files-found: error
           path: |
             instalador/*.exe
+            instalador/*.exe.sig
             app/src-tauri/target/release/bundle/deb/*.deb
+            app/src-tauri/target/release/bundle/deb/*.deb.sig
             app/src-tauri/target/release/bundle/rpm/*.rpm
+            app/src-tauri/target/release/bundle/rpm/*.rpm.sig
             app/src-tauri/target/release/bundle/appimage/*.AppImage
+            app/src-tauri/target/release/bundle/appimage/*.AppImage.sig
             app/src-tauri/target/*/release/bundle/dmg/*.dmg
+            app/src-tauri/target/*/release/bundle/macos/*.app.tar.gz
+            app/src-tauri/target/*/release/bundle/macos/*.app.tar.gz.sig
 
   publicar:
     name: Release (borrador)
@@ -131,6 +152,12 @@ jobs:
         with:
           path: instaladores
           merge-multiple: true
+
+      - name: Archivo de actualización (latest.json)
+        run: |
+          # Los artefactos llegan dentro de sus carpetas de compilación: se dejan todos juntos.
+          find instaladores -mindepth 2 -type f -exec mv -t instaladores {} +
+          node app/scripts/latest-json.mjs instaladores "${{ steps.version.outputs.valor }}"
 
       - name: Sumas SHA-256 de los instaladores
         run: |

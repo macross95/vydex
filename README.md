@@ -8,6 +8,7 @@ Programa de escritorio para descargar video hasta **8K y HDR**, y audio en **MP3
 - Cola de descargas con pausa, reanudación y varias descargas a la vez.
 - Historial con búsqueda, y archivos con capítulos, metadatos y subtítulos.
 - Todo ocurre en tu computador: sin cuentas, sin servidores intermedios y sin límites diarios.
+- Se actualiza solo: cada versión nueva publicada aquí se instala al abrir Vydex, con su firma verificada.
 
 **[Sitio web y demo](https://macross95.github.io/vydex/)** · **[Descargar la última versión](https://github.com/macross95/vydex/releases/latest)**
 
@@ -77,6 +78,14 @@ Vista previa sin compilar el núcleo (datos de ejemplo):
 3. Al terminar (unos 20 minutos), los instaladores quedan en **Releases** como borrador.
 
 También se ejecuta al subir una etiqueta de versión: `git tag v<versión> && git push origin v<versión>` (la misma versión de `app/package.json`).
+
+## Actualizaciones automáticas
+
+Vydex revisa la última versión publicada en Releases al abrirse y cada 6 horas. Si hay una nueva, la descarga, verifica su firma y la instala cuando no hay descargas en curso (se puede desactivar en Ajustes). En Windows, el instalador recibe `/UPDATE` y actualiza sin ventanas; en macOS y Linux lo hace el actualizador de Tauri.
+
+- **Cómo sale una actualización:** sube la etiqueta de la versión nueva; cuando el borrador de Release esté listo, publícalo. Desde ese momento, cada Vydex instalado se actualiza solo (lee `latest.json` de la última versión publicada).
+- **Firma:** la clave pública va en `app/src-tauri/tauri.conf.json`. La privada está en `%USERPROFILE%\.tauri\vydex-updater.key` (con su contraseña en `vydex-updater.password.txt`) y como secretos `TAURI_SIGNING_PRIVATE_KEY` y `TAURI_SIGNING_PRIVATE_KEY_PASSWORD` del repositorio. **Guárdalas en un gestor de contraseñas:** sin ellas no se pueden publicar actualizaciones para quienes ya tienen Vydex.
+- Para firmar al compilar en tu equipo, define esas dos variables de entorno antes de `node scripts/empaquetar-instalador.mjs`.
 
 ## Antes de publicar
 

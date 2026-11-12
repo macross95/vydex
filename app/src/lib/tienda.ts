@@ -32,6 +32,7 @@ const AJUSTES_BASE: Ajustes = {
   subtitulos: false,
   notificar: true,
   portapapeles: true,
+  actualizarAuto: true,
   configurado: false,
   idioma: "es",
 };
@@ -63,7 +64,7 @@ function una<T extends string>(valor: unknown, opciones: readonly T[], base: T):
 
 function sanearAjustes(crudo: unknown): Ajustes {
   const a = esObjeto(crudo) ? crudo : {};
-  const si = (clave: "hdr" | "subtitulos" | "notificar" | "portapapeles" | "configurado") =>
+  const si = (clave: "hdr" | "subtitulos" | "notificar" | "portapapeles" | "configurado" | "actualizarAuto") =>
     typeof a[clave] === "boolean" ? (a[clave] as boolean) : AJUSTES_BASE[clave];
   const simultaneas = Number(a.simultaneas);
   return {
@@ -77,6 +78,7 @@ function sanearAjustes(crudo: unknown): Ajustes {
     subtitulos: si("subtitulos"),
     notificar: si("notificar"),
     portapapeles: si("portapapeles"),
+    actualizarAuto: si("actualizarAuto"),
     configurado: si("configurado"),
     idioma: una(a.idioma, ["es", "en"], "es"),
   };

@@ -10,7 +10,7 @@
   --tenue: #a3a3a6;
   --acento: #ff5a1f;
   --boton: #d93b0a;
-  --boton-hover: #e84a12;
+  --boton-hover: #c2330a;
   --radio: 14px;
   --margen: clamp(16px, 4vw, 40px);
   --ancho: 1180px;
@@ -74,7 +74,7 @@ h1, h2, h3, p { margin: 0; }
 @keyframes entrar { to { opacity: 1; filter: blur(0); transform: none; } }
 
 /* Ventana con la app real (modo demostración) */
-.ventana { position: relative; border-radius: var(--radio); border: 1px solid var(--control); background: #0b0b0c; box-shadow: 0 -20px 80px rgb(255 90 31 / 0.12), 0 30px 80px rgb(0 0 0 / 0.6); overflow: hidden; }
+.ventana { position: relative; border-radius: var(--radio); border: 1px solid var(--control); background: #0b0b0c; box-shadow: 0 30px 80px rgb(0 0 0 / 0.6); overflow: hidden; }
 .ventana__barra { height: 36px; display: flex; align-items: center; gap: 7px; padding: 0 14px; border-bottom: 1px solid var(--regla); background: #111113; }
 .ventana__barra span { width: 11px; height: 11px; border-radius: 50%; background: rgb(255 255 255 / 0.18); }
 .ventana__barra p { margin-left: 8px; font-size: 12px; color: var(--tenue); }
@@ -108,7 +108,7 @@ h1, h2, h3, p { margin: 0; }
 .dato { color: var(--tenue); font-variant-numeric: tabular-nums; }
 .fila { display: flex; justify-content: space-between; gap: 10px; color: var(--suave); }
 .fila b { color: var(--texto); font-variant-numeric: tabular-nums; }
-.fila.apagada { opacity: .55; }
+.fila.apagada { opacity: .75; }
 .barra { height: 4px; border-radius: 4px; background: rgb(255 255 255 / 0.09); overflow: hidden; }
 .barra i { display: block; height: 100%; width: 62%; border-radius: 4px; background: var(--acento); animation: avanzar 3.2s ease-in-out infinite; }
 .tarjeta:hover .barra i { animation: none; animation: avanzar 3.2s ease-in-out infinite; }

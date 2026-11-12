@@ -269,6 +269,12 @@ export default function Ajustes({ guia, alTerminarGuia }: { guia: boolean; alTer
           activo={ajustes.portapapeles}
           alCambiar={(v) => cambiar("portapapeles", v)}
         />
+        <FilaInterruptor
+          titulo={a.actualizarAuto}
+          descripcion={a.actualizarAutoDesc}
+          activo={ajustes.actualizarAuto}
+          alCambiar={(v) => cambiar("actualizarAuto", v)}
+        />
       </Seccion>
 
       <Seccion titulo={a.motor} descripcion={a.motorDesc}>
